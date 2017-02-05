@@ -5,7 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [twitter-api "0.7.9"]
-                 [environ "1.1.0"]]
+                 [environ "1.1.0"]
+                 [com.cemerick/url "0.1.1"]]
   :main ^:skip-aot markov-bot.core
   :target-path "target/%s"
   :plugins [[lein-environ "1.1.0"]]
