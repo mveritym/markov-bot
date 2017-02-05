@@ -64,24 +64,3 @@
                           {:user "sebmarkbage"}]))
 
 (react-bot 10)
-
-(def tech-bot (make-bot [{:user "TechFlunk"}
-                         {:user "internetofshit"}]))
-(tech-bot 10)
-
-(def kittens-bot (make-bot [{:user "sebmck"}
-                            {:user "iamdevloper"}]))
-(kittens-bot 10)
-
-(def kanye-trump (make-bot ["realDonaldTrump" "kanyewest"]))
-(kanye-trump 10)
-
-(def drump (make-bot ["realDonaldTrump" "dril"]))
-(count (drump 10))
-(drump 10)
-
-(def djtrump (make-bot ["realDonaldTrump" "djsnake" "Skrillex" "IamAkademiks"]))
-(djtrump 10)
-
-(def tech-bot (make-bot tech-users))
-(tech-bot 10)
