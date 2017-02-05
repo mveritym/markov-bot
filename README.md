@@ -4,11 +4,11 @@ A tool for generating twitter bots from input lists of Twitter usernames or sear
 
 ## Usage
 
-Eventually this will be better but for now:
+Eventually this will be better but for now we'll just run this in `lein-repl`.
 
     $ lein-repl
     $ (def test-bot (make-bot [{:user "realDonaldTrump"} {:user "sosadtoday"}]))
-    $ (test-bot 10)
+    $ (pprint (test-bot 10))
 
 ## License
 
