@@ -2,15 +2,15 @@
   (:require [markov-bot.twitter :as twitter]
             [markov-bot.generator :refer :all]))
 
-(defn get-tweets-for-inputs [inputs]
-  (->> inputs
-       (map get-tweets-by-input)
-       (apply concat)))
-
 (defn get-tweets-by-input [{:keys [user search]}]
   (if (some? user)
     (twitter/get-all-tweets-for-user user)
     (twitter/get-all-tweets-for-search search)))
+
+(defn get-tweets-for-inputs [inputs]
+  (->> inputs
+       (map get-tweets-by-input)
+       (apply concat)))
 
 (defn gen-chain-from-tweets [tweets]
   (->> (map clojure.string/lower-case tweets)

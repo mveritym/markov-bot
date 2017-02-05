@@ -33,24 +33,6 @@
                                  :params {:screen-name user-name})]
     (->> user :body :statuses_count)))
 
-(defn get-all-tweets-for-user [user]
-  (let [num-tweets (get-num-tweets user)
-        max (min num-tweets 3200)]
-    (get-all-tweets get-tweets-for-user user max)))
-
-(defn get-all-tweets-for-search [search-term]
-  (get-all-tweets get-tweets-for-search search-term 3200))
-
-(defn get-all-tweets [get-fn to-get max]
-  (loop [result (get-fn to-get)]
-    (if (< (count result) max)
-      (let [max-id (get-max-id result)
-            new-tweets (get-fn to-get max-id)]
-        (recur (concat result new-tweets)))
-      (->> result
-           (map parse-tweet)
-           (map strip-tweet)))))
-
 (defn get-max-id [tweets]
   (let [ids (map :id tweets)]
     (apply min ids)))
@@ -74,3 +56,21 @@
 (defn strip-tweet [tweet]
   (let [{:keys [text urls]} tweet]
     (remove-url (vec urls) text)))
+
+(defn get-all-tweets [get-fn to-get max]
+  (loop [result (get-fn to-get)]
+    (if (< (count result) max)
+      (let [max-id (get-max-id result)
+            new-tweets (get-fn to-get max-id)]
+        (recur (concat result new-tweets)))
+      (->> result
+           (map parse-tweet)
+           (map strip-tweet)))))
+
+(defn get-all-tweets-for-user [user]
+  (let [num-tweets (get-num-tweets user)
+        max (min num-tweets 3200)]
+    (get-all-tweets get-tweets-for-user user max)))
+
+(defn get-all-tweets-for-search [search-term]
+  (get-all-tweets get-tweets-for-search search-term 3200))
