@@ -1,32 +1,14 @@
 # markov-bot
 
-FIXME: description
-
-## Installation
-
-Download from http://example.com/FIXME.
+A tool for generating twitter bots from input lists of Twitter usernames or search terms.
 
 ## Usage
 
-FIXME: explanation
-
     $ java -jar markov-bot-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
 
 ## Examples
 
 ...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
 
 ## License
 
