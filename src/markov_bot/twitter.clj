@@ -47,11 +47,9 @@
       (let [max-id (get-max-id result)
             new-tweets (get-fn to-get max-id)]
         (recur (concat result new-tweets)))
-      (fn []
-        (println "Got all tweets for:" to-get)
-        (->> result
-             (map parse-tweet)
-             (map strip-tweet))))))
+      (->> result
+           (map parse-tweet)
+           (map strip-tweet)))))
 
 (defn get-max-id [tweets]
   (let [ids (map :id tweets)]
