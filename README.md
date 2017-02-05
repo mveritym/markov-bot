@@ -12,7 +12,6 @@ Eventually this will be better but for now we'll just run this in `lein-repl`.
 
 ## License
 
-Copyright © 2017 FIXME
+Copyright © 2017 Melissa Marshall
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the MIT License.
