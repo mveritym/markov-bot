@@ -4,11 +4,11 @@ A tool for generating twitter bots from input lists of Twitter usernames or sear
 
 ## Usage
 
-    $ java -jar markov-bot-0.1.0-standalone.jar [args]
+Eventually this will be better but for now:
 
-## Examples
-
-...
+    $ lein-repl
+    $ (def test-bot (make-bot [{:user "realDonaldTrump"} {:user "sosadtoday"}]))
+    $ (test-bot 10)
 
 ## License
 
