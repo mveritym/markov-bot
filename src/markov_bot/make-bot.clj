@@ -1,4 +1,4 @@
-(ns markov-bot.main
+(ns markov-bot.make-bot
   (:require [markov-bot.twitter :as twitter]
             [markov-bot.generator :refer :all]))
 
@@ -44,23 +44,3 @@
           (if (< (count filtered) num-to-gen)
             (recur (- num-to-gen (count filtered)) (concat result filtered))
             (concat result filtered)))))))
-
-(def sad-trump (make-bot [{:user "realDonaldTrump"}
-                          {:user "sosadtoday"}]))
-(sad-trump 10)
-
-(def react-bot (make-bot [{:user "dan_abramov"}
-                          {:user "mxstbr"}
-                          {:user "nikgraf"}
-                          {:user "wesbos"}
-                          {:user "matzatorski"}
-                          {:user "jaredforsyth"}
-                          {:user "acdlite"}
-                          {:user "sebmck"}
-                          {:user "ken_wheeler"}
-                          {:user "kuizinas"}
-                          {:user "mjackson"}
-                          {:user "ryanflorence"}
-                          {:user "sebmarkbage"}]))
-
-(react-bot 10)
