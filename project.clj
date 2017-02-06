@@ -1,21 +1,14 @@
 (defproject markov-bot "0.1.0-SNAPSHOT"
-  :description "FIXME: write description"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :description "Generate new tweets given twitter handles and/or search terms"
+  :license {:name "MIT License"}
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.456"]
                  [twitter-api "0.7.9"]
                  [environ "1.1.0"]
                  [com.cemerick/url "0.1.1"]
                  [org.slf4j/slf4j-log4j12 "1.7.12"]]
   :main ^:skip-aot markov-bot.core
   :target-path "target/%s"
-  :plugins [[lein-environ "1.1.0"]
-            [lein-cljsbuild "1.1.5"]]
-  :cljsbuild {:builds [{:source-paths ["src"]
-                        :compiler {:output-to "target/cljsbuild-main.js"
-                                   :pretty-print true}}]}
+  :plugins [[lein-environ "1.1.0"]]
   :profiles {:uberjar {:aot :all}
              :dev {:plugins [[com.jakemccrary/lein-test-refresh "0.18.1"]]
                    :env {:consumer-key "Kkhxl0qZ2AzaFEc6WXa5bDD8L"

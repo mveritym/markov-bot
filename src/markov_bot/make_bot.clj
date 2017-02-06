@@ -1,7 +1,7 @@
 (ns markov-bot.make-bot
   (:require [markov-bot.twitter :as twitter]
             [markov-bot.generator :refer :all]
-            [cemerick.url :refer (url-encode)]))
+            [cemerick.url :refer [url-encode]]))
 
 (defn get-tweets-by-input [{:keys [user search]}]
   (if (some? user)
