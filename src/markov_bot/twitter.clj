@@ -2,7 +2,7 @@
   (:require [twitter.api.restful :as twitter]
             [twitter.oauth :as oauth]
             [environ.core :refer [env]]
-            [clojure.string :refer [trim replace join split blank?]]))
+            [clojure.string :as string]))
 
 (def creds (oauth/make-oauth-creds (env :consumer-key)
                                    (env :consumer-secret)
@@ -47,11 +47,11 @@
 (defn remove-url [urls text]
   (let [pattern (->> urls (interpose \|) (apply str) re-pattern)]
     (->> pattern
-         (#(replace text % ""))
-         (#(split % #"\s+"))
-         (remove blank?)
-         (join " ")
-         trim)))
+         (#(string/replace text % ""))
+         (#(string/split % #"\s+"))
+         (remove string/blank?)
+         (string/join " ")
+         string/trim)))
 
 (defn strip-tweet [tweet]
   (let [{:keys [text urls]} tweet]
