@@ -5,7 +5,9 @@
                  [twitter-api "0.7.9"]
                  [environ "1.1.0"]
                  [com.cemerick/url "0.1.1"]
-                 [org.slf4j/slf4j-log4j12 "1.7.12"]]
+                 [org.slf4j/slf4j-log4j12 "1.7.12"]
+                 [org.clojure/tools.logging "0.3.1"]
+                 [log4j/log4j "1.2.17"]]
   :main ^:skip-aot markov-bot.core
   :target-path "target/%s"
   :plugins [[lein-environ "1.1.0"]]
