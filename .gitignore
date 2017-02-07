@@ -1,11 +1,11 @@
-/target
-/classes
-/checkouts
+markov-bot-lambda/target
+markov-bot-lambda/classes
+markov-bot-lambda/checkouts
 pom.xml
 pom.xml.asc
 *.jar
 *.class
-/.lein-*
-/.nrepl-port
+markov-bot-lambda/.lein-*
+markov-bot-lambda/.nrepl-port
 .hgignore
 .hg/
