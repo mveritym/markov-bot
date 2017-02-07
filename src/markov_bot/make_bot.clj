@@ -5,8 +5,8 @@
 
 (defn get-tweets-by-input [{:keys [user search]}]
   (if (some? user)
-    (twitter/get-all-tweets-for-user user)
-    (twitter/get-all-tweets-for-search (url-encode search))))
+    (->> user twitter/get-all-tweets-for-user)
+    (->> search url-encode twitter/get-all-tweets-for-search)))
 
 (defn get-tweets-for-inputs [inputs]
   (->> inputs

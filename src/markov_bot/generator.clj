@@ -1,4 +1,5 @@
-(ns markov-bot.generator)
+(ns markov-bot.generator
+  (:require [clojure.set :refer :all]))
 
 (defn word-chain [word-transitions]
   (reduce (fn [r t] (merge-with clojure.set/union r
