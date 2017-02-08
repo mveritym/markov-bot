@@ -64,9 +64,9 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <h2>Generate Some Tweets!</h2>
+          <h2>{`Generate Some Tweets!`}</h2>
         </div>
-        <h4>Enter usernames or search terms separated by new lines:</h4>
+        <h4>{`Enter usernames and/or search terms separated by new lines:`}</h4>
         <form name="tweets-search-form">
           <div className="input-box">
             <label>Users: </label>
