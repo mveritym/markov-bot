@@ -21,9 +21,9 @@
         searchvec (create-maps :search searches)]
     (into [] (concat uservec searchvec))))
 
-(defn handle-event [{:keys [query-string-parameters]}]
-  (let [users (or (:users query-string-parameters) "")
-        searches (or (:searches query-string-parameters) "")
+(defn handle-event [params]
+  (let [users (or (:users params) "")
+        searches (or (:searches params) "")
         bot-input (get-bot-input users searches)
         bot (make-bot bot-input)]
     (bot 10)))
