@@ -10,11 +10,8 @@
                  [log4j/log4j "1.2.17"]
                  [com.amazonaws/aws-lambda-java-core "1.1.0"]
                  [com.amazonaws/aws-lambda-java-events "1.3.0"]
-                 [org.clojure/data.json "0.2.6"]]
+                 [org.clojure/data.json "0.2.6"]
+                 [com.taoensso/faraday "1.9.0"]]
   :plugins [[lein-environ "1.1.0"]]
   :profiles {:uberjar {:aot :all}
-             :dev {:plugins [[com.jakemccrary/lein-test-refresh "0.18.1"]]
-                   :env {:consumer-key "Kkhxl0qZ2AzaFEc6WXa5bDD8L"
-                         :consumer-secret "a5OypITUyZ7fjL71p5TpUL5fzofOrnuKYvb92PUI3hDzaedCp6"
-                         :user-access-token "823920672124628992-WBHtoq80X6KbXZ5A1m54axDHXsynyUh"
-                         :user-access-secret "GqEjWCLV8qJoOF7aiYyRHKmnaI093iSWLJzEfdc0Opp9g"}}})
+             :dev {:plugins [[com.jakemccrary/lein-test-refresh "0.18.1"]]}})
