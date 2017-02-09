@@ -1,8 +1,7 @@
 (ns markov-bot.get-tweets-lambda
-  (:require [markov-bot.twitter :as twitter]
-            [clojure.data.json :as json]
-            [clojure.string :as s]
-            [clojure.java.io :as io])
+  (:require [markov-bot.aws :as aws]
+            [markov-bot.twitter :as twitter]
+            [taoensso.faraday :as faraday])
   (:gen-class
    :implements [com.amazonaws.services.lambda.runtime.RequestStreamHandler]
    :name get-tweets-lambda))
@@ -29,16 +28,5 @@
        input->users
        users->tweets))
 
-(defn key->keyword [key-string]
-  (-> key-string
-      (s/replace #"([a-z])([A-Z])" "$1-$2")
-      (s/replace #"([A-Z]+)([A-Z])" "$1-$2")
-      (s/lower-case)
-      (keyword)))
-
 (defn -handleRequest [this is os context]
-  (let [w (io/writer os)]
-    (-> (json/read (io/reader is) :key-fn key->keyword)
-        (handle-event)
-        (json/write w))
-    (.flush w)))
+  (aws/lambda-handler is os context handle-event))

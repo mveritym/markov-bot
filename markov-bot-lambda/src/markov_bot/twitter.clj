@@ -2,7 +2,8 @@
   (:require [twitter.api.restful :as twitter]
             [twitter.oauth :as oauth]
             [environ.core :refer [env]]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [markov-bot.aws :as aws]))
 
 (def creds (oauth/make-oauth-creds (env :consumer-key)
                                    (env :consumer-secret)
@@ -80,10 +81,19 @@
            (map parse-tweet)
            (map strip-tweet)))))
 
-(defn get-all-tweets-for-user [user]
+(defn get-from-db [user]
+  (->> user get-id-str (aws/get-tweets)))
+
+(defn get-from-api [user]
   (let [num-tweets (get-num-tweets user)
-        max (min num-tweets 3200)]
-    (get-all-tweets get-tweets-for-user user max)))
+        max (min num-tweets 3200)
+        tweets (get-all-tweets get-tweets-for-user user max)]
+    (aws/cache-tweets (get-id-str user) tweets)
+    tweets))
+
+(defn get-all-tweets-for-user [user]
+  (or (get-from-db user)
+      (get-from-api user)))
 
 (defn get-all-tweets-for-search [search-term]
   (get-all-tweets get-tweets-for-search search-term 3200))
