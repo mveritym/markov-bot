@@ -9,6 +9,24 @@
                                    (env :user-access-token)
                                    (env :user-access-secret)))
 
+(def users (atom {}))
+
+(defn fetch-user-info [user]
+  (let [user-info (:body (twitter/users-show :oauth-creds creds
+                                             :params {:screen-name user}))]
+    (swap! users assoc (keyword user) user-info)
+    user-info))
+
+(defn get-user-info [user]
+  (or (->> user keyword (get @users))
+      (->> user fetch-user-info)))
+
+(defn get-num-tweets [user]
+  (->> user get-user-info :statuses_count))
+
+(defn get-id-str [user]
+  (->> user get-user-info :id_str))
+
 (defn get-tweets-for-user [user & max-id]
   (let [params (merge {:screen-name user
                        :count 200
@@ -27,11 +45,6 @@
                       (if (some? max-id) {:max-id (first max-id)} {}))
         tweets (twitter/search-tweets :oauth-creds creds :params params)]
     (->> tweets :body :statuses)))
-
-(defn get-num-tweets [user-name]
-  (let [user (twitter/users-show :oauth-creds creds
-                                 :params {:screen-name user-name})]
-    (->> user :body :statuses_count)))
 
 (defn get-max-id [tweets]
   (let [ids (map :id tweets)]
