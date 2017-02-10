@@ -1,10 +1,24 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
 .App {
   text-align: center;
+  height: 100%;
+  font-size: 16px;
 }
 
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+  height: 300px;
 }
 
 .App-header {
@@ -18,29 +32,81 @@
   font-size: large;
 }
 
+.App-body {
+  width: 60%;
+  margin: 20px auto;
+  height: 100%;
+}
+
+.darkClass {
+  background-color: white;
+  filter:alpha(opacity=50); /* IE */
+  opacity: 0.8; /* Safari, Opera */
+  -moz-opacity:0.80; /* FireFox */
+  z-index: 2;
+  height: 100%;
+  width: 100%;
+  background-repeat:no-repeat;
+  background-position:center;
+  position:absolute;
+  top: 0px;
+  left: 0px;
+}
+
+.column {
+  width: 29%;
+  margin: 0 15px;
+  height: 100%;
+  float: left;
+}
+
+.logo-container {
+  margin-top: 15%;
+}
+
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
 form {
-  margin: 10px auto;
-  width: 768px;
+  width: 100%;
 }
 
 label {
   display: block;
+  width: 100%;
+  text-align: left;
+}
+
+input {
+  display: block;
+  margin-bottom: 10px;
+  width: 97%;
+}
+
+textarea {
+  display: block;
+  width: 97%;
+}
+
+select {
+  width: 100%;
 }
 
 button {
-  display: block;
-  margin: 10px auto;
-  width: 150px;
+  margin: 15px auto;
   height: 30px;
+  width: 100%;
   font-size: 14px;
 }
 
-.input-box {
-  display: inline-block;
-  width: 25%;
+ul {
+  margin-top: 0;
+}
+
+li {
+  text-align: left;
+  margin-top: 0;
+  margin-bottom: 15px;
 }
