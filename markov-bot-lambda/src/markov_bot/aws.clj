@@ -20,12 +20,11 @@
   (->> (faraday/get-item client-opts :UserTweets {:UserId user-id})
        :tweets :vector))
 
-(defn cache-bot [bot-name tweets chain]
+(defn cache-bot [bot-name users]
   (faraday/put-item client-opts
                     :Bots
                     {:bot-name bot-name
-                     :tweets (faraday/freeze {:map tweets})
-                     :chain (faraday/freeze {:map chain})}))
+                     :users (faraday/freeze {:map users})}))
 
 (defn get-bot [bot-name]
   (faraday/get-item client-opts :Bots {:bot-name bot-name}))
