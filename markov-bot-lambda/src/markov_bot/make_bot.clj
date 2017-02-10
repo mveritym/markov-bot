@@ -3,14 +3,9 @@
             [markov-bot.generator :refer :all]
             [cemerick.url :refer [url-encode]]))
 
-(defn get-tweets-by-input [{:keys [user search]}]
-  (if (some? user)
-    (->> user twitter/get-all-tweets-for-user)
-    (->> search url-encode twitter/get-all-tweets-for-search)))
-
-(defn get-tweets-for-inputs [inputs]
-  (->> inputs
-       (map get-tweets-by-input)
+(defn get-tweets-for-users [users]
+  (->> users
+       (map twitter/get-all-tweets-for-user)
        (apply concat)))
 
 (defn gen-chain-from-tweets [tweets]
@@ -32,9 +27,9 @@
     (if (= is-same true) (println "Removing" tweet))
     is-same))
 
-(defn make-bot [inputs]
-  (let [tweets (get-tweets-for-inputs inputs)
-        chain (gen-chain-from-tweets tweets)
+(defn make-bot [users]
+  (let [tweets (->> users get-tweets-for-users)
+        chain  (->> tweets gen-chain-from-tweets)
         make-text #(generate-text (gen-rand-start-phrase tweets) chain)]
     (fn [num]
       (loop [num-to-gen num
