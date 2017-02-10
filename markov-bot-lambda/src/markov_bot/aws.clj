@@ -21,9 +21,6 @@
        :tweets :vector))
 
 (defn cache-bot [bot-name tweets chain]
-  (println "bot-name:" (type bot-name))
-  (println "tweets:" (type tweets))
-  (println "chain:" (type chain))
   (faraday/put-item client-opts
                     :Bots
                     {:bot-name bot-name

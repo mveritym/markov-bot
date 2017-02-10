@@ -35,5 +35,4 @@
     (aws/cache-bot bot-name tweets chain)))
 
 (defn -handleRequest [this is os context]
-  (println "CONTEXT:" context)
   (aws/lambda-handler is os context handle-event))
