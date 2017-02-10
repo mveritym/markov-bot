@@ -18,21 +18,16 @@
    (keyword user)
    (twitter/get-all-tweets-for-user user)))
 
-(defn users->tweets [users]
-  (->> users
-       (map user->tweet)
-       merge
-       first))
+(defn user->id-str [user]
+  (hash-map
+   (keyword user)
+   (twitter/get-id-str user)))
 
 (defn handle-event [params]
   (let [bot-name (->> params :bot-name str)
-        tweets   (->> params
-                      (#(or (:users %) ""))
-                      input->users
-                      users->tweets)
-        chain    (->> tweets
-                      make-bot/tweets->chain)]
-    (aws/cache-bot bot-name tweets chain)))
+        users    (->> params (#(or (:users %) "")) input->users)
+        user-ids (->> users (map user->id-str) (into {}))]
+    (aws/cache-bot bot-name user-ids)))
 
 (defn -handleRequest [this is os context]
   (aws/lambda-handler is os context handle-event))
