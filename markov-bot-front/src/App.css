@@ -85,13 +85,19 @@ input {
   width: 97%;
 }
 
+input[type="text"] {
+  font-size: 14px;
+}
+
 textarea {
   display: block;
   width: 97%;
+  font-size: 14px;
 }
 
 select {
   width: 100%;
+  font-size: 14px;
 }
 
 button {
