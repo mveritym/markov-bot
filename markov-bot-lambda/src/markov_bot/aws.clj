@@ -6,8 +6,8 @@
             [clojure.data.json :as json]))
 
 (def client-opts
-  {:access-key    (env :aws-access-key)
-   :secret-key    (env :aws-access-secret)
+  {:access-key    (env :aws-db-access-key)
+   :secret-key    (env :aws-db-access-secret)
    :endpoint      (env :aws-dynamodb-endpoint)})
 
 (defn cache-tweets [user-id tweets]
@@ -20,7 +20,18 @@
   (->> (faraday/get-item client-opts :UserTweets {:UserId user-id})
        :tweets :vector))
 
-(get-tweets "12345")
+(defn cache-bot [bot-name tweets chain]
+  (println "bot-name:" (type bot-name))
+  (println "tweets:" (type tweets))
+  (println "chain:" (type chain))
+  (faraday/put-item client-opts
+                    :Bots
+                    {:bot-name bot-name
+                     :tweets (faraday/freeze {:map tweets})
+                     :chain (faraday/freeze {:map chain})}))
+
+(defn get-bot [bot-name]
+  (faraday/get-item client-opts :Bots {:bot-name bot-name}))
 
 (defn key->keyword [key-string]
   (-> key-string
