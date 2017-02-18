@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import AWS from 'aws-sdk';
-import { getBots, makeBot } from './aws/db';
+import { getBots, makeBot, runBot } from './aws/db';
 
 class App extends Component {
 
@@ -19,16 +18,11 @@ class App extends Component {
   }
 
   async componentDidMount() {
-    AWS.config.region = 'us-west-2'; // Region
-    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-        IdentityPoolId: 'us-west-2:9b63f1e6-e3b8-4c2f-9592-532633cf2992',
-    });
-    this.lambda = new AWS.Lambda({region: 'us-west-2', apiVersion: '2015-03-31'});
-
     const bots = await getBots();
     this.setState({
       bots,
       botName: bots[0]['bot-name'],
+      selectedBot: bots[0]['bot-name'],
       users: bots[0]['user-names'].join("\n")
     });
   }
@@ -50,8 +44,6 @@ class App extends Component {
     });
   }
 
-  combineWithCommas = (inputStr) => inputStr.split('\n').join(',');
-
   async makeBot(event) {
     event.preventDefault();
     this.setState({isLoading: true});
@@ -63,28 +55,14 @@ class App extends Component {
     });
   }
 
-  runBot(event) {
+  async runBot(event) {
     event.preventDefault();
     this.setState({isLoading: true, result: ""});
-
-    const selectedBot = this.state.selectedBot;
-    const pullParams = {
-      FunctionName: 'RunBot',
-      InvocationType: 'RequestResponse',
-      LogType: 'None',
-      Payload: `{
-        "bot-name": "${selectedBot}"
-      }`
-    };
-
-    this.lambda.invoke(pullParams, (error, data) => {
-      this.setState({isLoading: false});
-      if (error) {
-        prompt(error);
-      } else {
-        this.setState({result: JSON.parse(data.Payload)})
-      }
-    })
+    const runBotResult = await runBot(this.state.selectedBot);
+    this.setState({
+      ...runBotResult,
+      isLoading: false
+    });
   }
 
   render() {

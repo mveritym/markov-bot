@@ -54,3 +54,23 @@ export const makeBot = (bots, botName, users) => {
     });
   });
 }
+
+export const runBot = (selectedBot) => {
+  const pullParams = {
+    FunctionName: 'RunBot',
+    InvocationType: 'RequestResponse',
+    LogType: 'None',
+    Payload: `{
+      "bot-name": "${selectedBot}"
+    }`
+  };
+
+  return new Promise((resolve, reject) => {
+    lambda.invoke(pullParams, (error, data) => {
+      if (error) reject("Run bot lambda failed");
+      else {
+        resolve({result: JSON.parse(data.Payload)});
+      }
+    });
+  });
+};
