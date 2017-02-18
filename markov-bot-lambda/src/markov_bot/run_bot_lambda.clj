@@ -8,7 +8,7 @@
 
 (defn handle-event [params]
   (let [bot-input (->> params :bot-name str (aws/get-bot))
-        users     (->> bot-input :users :map keys (map name))
+        users     (->> bot-input :user-names)
         bot       (->> users make-bot)]
     (bot 10)))
 

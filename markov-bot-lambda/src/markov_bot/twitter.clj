@@ -88,7 +88,7 @@
   (let [num-tweets (get-num-tweets user)
         max (min num-tweets 3200)
         tweets (get-all-tweets get-tweets-for-user user max)]
-    (aws/cache-tweets (get-id-str user) tweets)
+    (aws/cache-tweets (get-id-str user) user tweets)
     tweets))
 
 (defn get-all-tweets-for-user [user]

@@ -10,21 +10,23 @@
    :secret-key    (env :aws-db-access-secret)
    :endpoint      (env :aws-dynamodb-endpoint)})
 
-(defn cache-tweets [user-id tweets]
+(defn cache-tweets [user-id username tweets]
   (faraday/put-item client-opts
                     :UserTweets
                     {:UserId user-id
+                     :name username
                      :tweets (faraday/freeze {:vector tweets})}))
 
 (defn get-tweets [user-id]
   (->> (faraday/get-item client-opts :UserTweets {:UserId user-id})
        :tweets :vector))
 
-(defn cache-bot [bot-name users]
+(defn cache-bot [bot-name user-names user-ids]
   (faraday/put-item client-opts
                     :Bots
                     {:bot-name bot-name
-                     :users (faraday/freeze {:map users})}))
+                     :user-ids user-ids
+                     :user-names user-names}))
 
 (defn get-bot [bot-name]
   (faraday/get-item client-opts :Bots {:bot-name bot-name}))
