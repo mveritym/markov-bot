@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import AWS from 'aws-sdk';
-import { getBots } from './aws/db';
+import { getBots, makeBot } from './aws/db';
 
 class App extends Component {
 
@@ -17,8 +17,6 @@ class App extends Component {
       isLoading: false
     };
   }
-
-
 
   async componentDidMount() {
     AWS.config.region = 'us-west-2'; // Region
@@ -45,7 +43,6 @@ class App extends Component {
 
   handleSelectedBotChange = (event) => {
     const selectedBotName = event.target.value;
-    console.log("New users:", this.state.bots.find(bot => bot['bot-name'] === selectedBotName)['user-names']);
     this.setState({
       selectedBot: selectedBotName,
       botName: selectedBotName,
@@ -55,38 +52,14 @@ class App extends Component {
 
   combineWithCommas = (inputStr) => inputStr.split('\n').join(',');
 
-  makeBot(event) {
+  async makeBot(event) {
     event.preventDefault();
     this.setState({isLoading: true});
-
-    const botName = this.state.botName;
-      const pullParams = {
-      FunctionName : 'MakeBot',
-      InvocationType : 'RequestResponse',
-      LogType : 'None',
-      Payload: `{
-        "users": "${this.combineWithCommas(this.state.users)}",
-        "bot-name": "${botName}"
-      }`
-    };
-
-    this.lambda.invoke(pullParams, (error, data) => {
-      this.setState({isLoading: false});
-      if (error) {
-        prompt(error);
-      } else {
-        const newBots = this.state.bots.slice();
-        if (this.state.bots.indexOf(botName) === -1) {
-          newBots.push({
-            'bot-name': botName,
-            'users': this.state.users.split("\n")
-          });
-        }
-        this.setState({
-          bots: [...newBots],
-          selectedBot: botName
-        })
-      }
+    const {bots, botName, users} = this.state;
+    const makeBotResult = await makeBot(bots, botName, users);
+    this.setState({
+      ...makeBotResult,
+      isLoading: false
     });
   }
 
