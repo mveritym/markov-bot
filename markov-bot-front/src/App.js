@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import AWS from 'aws-sdk';
+import { getBots } from './aws/db';
 
 class App extends Component {
 
@@ -17,24 +18,39 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
+
+
+  async componentDidMount() {
     AWS.config.region = 'us-west-2'; // Region
     AWS.config.credentials = new AWS.CognitoIdentityCredentials({
         IdentityPoolId: 'us-west-2:9b63f1e6-e3b8-4c2f-9592-532633cf2992',
     });
     this.lambda = new AWS.Lambda({region: 'us-west-2', apiVersion: '2015-03-31'});
+
+    const bots = await getBots();
+    this.setState({
+      bots,
+      botName: bots[0]['bot-name'],
+      users: bots[0]['user-names'].join("\n")
+    });
   }
 
   handleUsersChange = (event) => {
-    this.setState({users: event.target.value})
+    this.setState({users: event.target.value});
   }
 
   handleBotNameChange = (event) => {
-    this.setState({botName: event.target.value})
+    this.setState({botName: event.target.value});
   }
 
   handleSelectedBotChange = (event) => {
-    this.setState({selectedBot: event.target.value})
+    const selectedBotName = event.target.value;
+    console.log("New users:", this.state.bots.find(bot => bot['bot-name'] === selectedBotName)['user-names']);
+    this.setState({
+      selectedBot: selectedBotName,
+      botName: selectedBotName,
+      users: this.state.bots.find(bot => bot['bot-name'] === selectedBotName)['user-names'].join("\n")
+    });
   }
 
   combineWithCommas = (inputStr) => inputStr.split('\n').join(',');
@@ -61,7 +77,10 @@ class App extends Component {
       } else {
         const newBots = this.state.bots.slice();
         if (this.state.bots.indexOf(botName) === -1) {
-          newBots.push(botName);
+          newBots.push({
+            'bot-name': botName,
+            'users': this.state.users.split("\n")
+          });
         }
         this.setState({
           bots: [...newBots],
@@ -124,7 +143,10 @@ class App extends Component {
               <form>
                 <label>&nbsp;</label>
                 <select value={this.state.selectedBot} onChange={this.handleSelectedBotChange}>
-                  {this.state.bots.map((bot, i) => <option key={i} value={bot}>{bot}</option>)}
+                  {this.state.bots.map((bot, i) => {
+                    const botName = bot['bot-name'];
+                    return <option key={i} value={botName}>{botName}</option>;
+                  })}
                 </select>
                 <button type="submit" onClick={this.runBot.bind(this)}>Run Bot</button>
               </form> : <p>No bots yet!</p>}
