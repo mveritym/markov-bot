@@ -40,8 +40,6 @@ export const makeBot = (bots, botName, users) => {
       else {
         const newBots = bots.slice();
         const botNames = bots.map(bot => bot['bot-name']);
-        console.log("Bot names:", botNames);
-        console.log("New bot name:", botName);
         if (botNames.indexOf(botName) === -1) {
           newBots.push({
             'bot-name': botName,
